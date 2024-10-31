@@ -23,13 +23,11 @@ npm install
 npm run dev
 ```
 
-Now you can open http://localhost:5050
+Now you can open the local url for expample http://localhost:5050
 
 ### Packages included
 
-- [Webpack](https://webpack.js.org/)
+- [Vite](https://vite.dev/)
 - [React Router](https://reactrouter.com/en/main)
+- [Lucide React](https://lucide.dev/guide/packages/lucide-react)
 
-### About stylesheets
-
-- Sample stylesheets were written using the [BEM](https://getbem.com/) structure
