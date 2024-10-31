@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite APP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Basic Frontend Development Environment to start an app with Vite
 
-Currently, two official plugins are available:
+This repo includes `Vite` to start an environment to build frontend views using `React`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Requirements
 
-## Expanding the ESLint configuration
+- Node >= 16.13.1
+- npm >= 8.1.2
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Quick start
 
-- Configure the top-level `parserOptions` property like this:
+1) Install dependences
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2) Launch environment
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+npm run dev
+```
+
+Now you can open http://localhost:5050
+
+### Packages included
+
+- [Webpack](https://webpack.js.org/)
+- [React Router](https://reactrouter.com/en/main)
+
+### About stylesheets
+
+- Sample stylesheets were written using the [BEM](https://getbem.com/) structure
