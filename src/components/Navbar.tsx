@@ -13,6 +13,7 @@ const NavbarComponent = () => {
             height="60"
             className="d-inline-block align-top me-2"
           />{" "}
+          <Nav.Link href="/home"></Nav.Link>
           <span>P.A.U</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
