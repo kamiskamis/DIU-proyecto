@@ -22,11 +22,9 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/">
               Inicio
             </Nav.Link>
-            <Nav.Link as={Link} to="/about">
-              Acerca
-            </Nav.Link>
-            <Nav.Link as={Link} to="/contact">
-              Contacto
+
+            <Nav.Link as={Link} to="/resultados">
+              Resultados
             </Nav.Link>
           </Nav>
           {/* Apartado de Perfil */}
