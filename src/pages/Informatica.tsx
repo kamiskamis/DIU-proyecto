@@ -49,13 +49,13 @@ const CustomCard: React.FC<CardProps> = ({
             <Form.Group className="mb-3">
               {/* Checkbox para decidir si ser de catedra o de laboratorios */}
               <Form.Check
-                type="checkbox"
+                type="radio"
                 label="Cátedra"
                 checked={selectedOption === "catedra"}
                 onChange={() => handleCheckboxChange("catedra")}
               />
               <Form.Check
-                type="checkbox"
+                type="radio"
                 label="Laboratorio"
                 checked={selectedOption === "laboratorio"}
                 onChange={() => handleCheckboxChange("laboratorio")}
@@ -123,7 +123,7 @@ function WithHeaderExample() {
   return (
     <>
       <CustomCard
-        title="Bases de datos"
+        title="INF-239 Bases de datos"
         text="With supporting text below as a natural lead-in to additional content."
         buttonText="Postular a ayudantía"
         description={formatDescription(
@@ -131,7 +131,7 @@ function WithHeaderExample() {
         )}
       />
       <CustomCard
-        title="Estadística Computacional"
+        title="INF-280 Estadística Computacional"
         text="With supporting text below as a natural lead-in to additional content."
         buttonText="Postular a ayudantía"
         description={formatDescription(
@@ -139,7 +139,7 @@ function WithHeaderExample() {
         )}
       />
       <CustomCard
-        title="Programación"
+        title="IWI-131 Programación"
         text="With supporting text below as a natural lead-in to additional content."
         buttonText="Postular a ayudantía"
         description={formatDescription(
