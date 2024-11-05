@@ -99,10 +99,10 @@ const CustomCard: React.FC<CardProps> = ({
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Cerrar
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            Save Changes
+            Enviar Postulación
           </Button>
         </Modal.Footer>
       </Modal>
