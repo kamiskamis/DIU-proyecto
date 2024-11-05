@@ -30,4 +30,5 @@ Now you can open the local url for expample http://localhost:5050
 - [Vite](https://vite.dev/)
 - [React Router](https://reactrouter.com/en/main)
 - [Lucide React](https://lucide.dev/guide/packages/lucide-react)
+- [React Bootstrap](https://react-bootstrap.netlify.app/)
 
