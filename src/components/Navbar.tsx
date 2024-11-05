@@ -30,7 +30,7 @@ const NavbarComponent = () => {
           {/* Apartado de Perfil */}
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/profile">
-              <span>Hola, Alejandro</span>{" "}
+              <span>Hola, Camila</span>{" "}
               <CircleUserRound color="white" size={35} />{" "}
               {/* Ícono de usuario */}
             </Nav.Link>
