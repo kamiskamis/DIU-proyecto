@@ -144,6 +144,7 @@ function WithHeaderExample() {
 
   return (
     <>
+      <h1 className="text-center mt-4">Ayudantias disponibles</h1>
       <CustomCard
         title="IDP-103 Factor Humano"
         text="estudio de las interacciones entre las personas y los productos o sistemas que diseñan."

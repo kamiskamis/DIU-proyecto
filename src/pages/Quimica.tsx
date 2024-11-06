@@ -144,6 +144,7 @@ function WithHeaderExample() {
 
   return (
     <>
+      <h1 className="text-center mt-4">Ayudantias disponibles</h1>
       <CustomCard
         title="IQA-126 Balance de Materia"
         text="Estudio de los principios y métodos para analizar y controlar el flujo de materiales en sistemas industriales y de producción."

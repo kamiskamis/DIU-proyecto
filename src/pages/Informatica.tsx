@@ -144,6 +144,7 @@ function WithHeaderExample() {
 
   return (
     <>
+      <h1 className="text-center mt-4">Ayudantias disponibles</h1>
       <CustomCard
         title="INF-239 Bases de datos"
         text="Estudio de los fundamentos, diseño y gestión de bases de datos para almacenar, organizar y recuperar información de manera eficiente."

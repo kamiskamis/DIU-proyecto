@@ -144,6 +144,7 @@ function WithHeaderExample() {
 
   return (
     <>
+      <h1 className="text-center mt-4">Ayudantias disponibles</h1>
       <CustomCard
         title="MAT-125 Introducción a la Matemática avanzada"
         text="Introducción a conceptos avanzados de álgebra y cálculo para resolver problemas complejos en ingeniería y ciencias."
