@@ -6,6 +6,9 @@ import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
 import Informatica from "./pages/Informatica";
 import Resultados from "./pages/Resultados";
+import Idp from "./pages/Idp";
+import Matematicas from "./pages/Matematicas";
+import Quimica from "./pages/Quimica";
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
         />
         <Route path="/informatica" element={<Informatica />} />
         <Route path="/resultados" element={<Resultados />} />
+        <Route path="/idp" element={<Idp />} />
+        <Route path="/matematicas" element={<Matematicas />} />
+        <Route path="/quimica" element={<Quimica />} />
       </Routes>
     </Router>
   );
