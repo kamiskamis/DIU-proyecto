@@ -1,8 +1,14 @@
-# React + TypeScript + Vite APP
+# Rediseño de plataforma PAU
 
-Basic Frontend Development Environment to start an app with Vite
+Este repositorio contiene el frontend de nuestro rediseño de la plataforma PAU.
 
-This repo includes `Vite` to start an environment to build frontend views using `React`.
+### Integrantes:
+
+-Camila Rosales 202173631-k
+
+-Alejandro Rojo 202130524-6
+
+-Alexander Inostroza 202173595-k
 
 ### Requirements
 
@@ -31,4 +37,3 @@ Now you can open the local url for expample http://localhost:5050
 - [React Router](https://reactrouter.com/en/main)
 - [Lucide React](https://lucide.dev/guide/packages/lucide-react)
 - [React Bootstrap](https://react-bootstrap.netlify.app/)
-
