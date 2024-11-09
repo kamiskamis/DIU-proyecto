@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import { Link } from "react-router-dom";
 
 interface CardProps {
   title: string;
@@ -23,6 +25,12 @@ const CustomCard: React.FC<CardProps> = ({
   const [showAlert, setShowAlert] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  useEffect(() => {
+    const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
+    const hasSubmitted = previousApplications.some((app: any) => app.title === title);
+    setIsSubmitted(hasSubmitted);
+  }, [title]);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -31,9 +39,26 @@ const CustomCard: React.FC<CardProps> = ({
   };
 
   const handleSubmit = () => {
+    const application = {
+      title,
+      option: selectedOption,
+    };
+
+    const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
+    localStorage.setItem("applications", JSON.stringify([...previousApplications, application]));
+
     setShowAlert(true);
     setShow(false);
     setIsSubmitted(true);
+  };
+
+  const handleCancel = () => {
+    const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
+    const updatedApplications = previousApplications.filter((app: any) => app.title !== title);
+    localStorage.setItem("applications", JSON.stringify(updatedApplications));
+
+    setShowAlert(false);
+    setIsSubmitted(false);
   };
 
   return (
@@ -51,6 +76,11 @@ const CustomCard: React.FC<CardProps> = ({
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
         <div className="d-flex justify-content-end">
+          {isSubmitted && (
+            <Button variant="outline-danger" onClick={handleCancel} className="me-2">
+              Cancelar Postulación
+            </Button>
+          )}
           <Button
             variant={isSubmitted ? "secondary" : "primary"}
             onClick={handleShow}
@@ -67,64 +97,51 @@ const CustomCard: React.FC<CardProps> = ({
         </Modal.Header>
         <Modal.Body>
           <p>{description}</p>
-          <Form>
-            <Form.Group className="mb-3">
-              {/* Checkbox para decidir si ser de catedra o de laboratorios */}
-              <Form.Check
-                type="radio"
-                label="Cátedra"
-                checked={selectedOption === "catedra"}
-                onChange={() => handleCheckboxChange("catedra")}
-              />
-              <Form.Check
-                type="radio"
-                label="Laboratorio"
-                checked={selectedOption === "laboratorio"}
-                onChange={() => handleCheckboxChange("laboratorio")}
-              />
-            </Form.Group>
-
-            {/*Partes del formulario a rellenar*/}
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Motivaciones</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
-            {/* Checkbox para aceptar que leyo el instructivo de ayudantias */}
-            <Form.Check type="checkbox" id="custom-checkbox">
-              <Form.Check.Input type="checkbox" />
-              <Form.Check.Label>
-                He leído el instructivo de ayudantías
-              </Form.Check.Label>
-              <Form.Control.Feedback
-                type="valid"
-                style={{
-                  display: "block",
-                  fontSize: "0.875em",
-                  color: "#6c757d",
-                }}
-              >
-                Asegúrate de leer completamente el instructivo antes de
-                continuar{" "}
-                <a
-                  href="https://usmcl-my.sharepoint.com/:b:/g/personal/alejandro_rojo_usm_cl/EYmqNRjeJwxCn5HuKdmQ950BeipAGTTXmb77akpeb4Ec0Q?e=XPP5B0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  aquí.
-                </a>
-              </Form.Control.Feedback>
-            </Form.Check>
+          <Form id="applicationForm">
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="radio"
+            label="Cátedra"
+            checked={selectedOption === "catedra"}
+            onChange={() => handleCheckboxChange("catedra")}
+            required
+            name="option"
+          />
+          <Form.Check
+            type="radio"
+            label="Laboratorio"
+            checked={selectedOption === "laboratorio"}
+            onChange={() => handleCheckboxChange("laboratorio")}
+            required
+            name="option"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Label>Motivaciones</Form.Label>
+          <Form.Control as="textarea" rows={3} required />
+        </Form.Group>
+        <Form.Check type="checkbox" id="custom-checkbox" required>
+          <Form.Check.Input type="checkbox" required />
+          <Form.Check.Label>He leído el instructivo de ayudantías</Form.Check.Label>
+        </Form.Check>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cerrar
+        Cerrar
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Enviar Postulación
+          <Button
+        variant="primary"
+        onClick={() => {
+          const form = document.getElementById("applicationForm") as HTMLFormElement;
+          if (form.checkValidity()) {
+            handleSubmit();
+          } else {
+            form.reportValidity();
+          }
+        }}
+          >
+        Enviar Postulación
           </Button>
         </Modal.Footer>
       </Modal>
@@ -132,7 +149,9 @@ const CustomCard: React.FC<CardProps> = ({
   );
 };
 
-function WithHeaderExample() {
+const Postulaciones = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const formatDescription = (text: string) => {
     return text.split("\n").map((line: string, i: number) => (
       <React.Fragment key={i}>
@@ -142,35 +161,66 @@ function WithHeaderExample() {
     ));
   };
 
+  const ayudantias = [
+    {
+      title: "INF-239 Bases de datos",
+      text: "Estudio de los fundamentos, diseño y gestión de bases de datos para almacenar, organizar y recuperar información de manera eficiente.",
+      buttonText: "Postular a ayudantía",
+      description: formatDescription(
+        "Ayudante base de datos\n123 horas mensuales, 4 bloques de catedra semanales\nCrear y corregir tareas"
+      ),
+    },
+    {
+      title: "INF-280 Estadística Computacional",
+      text: "Aplicación de métodos estadísticos y algoritmos computacionales para el análisis y procesamiento de grandes conjuntos de datos.",
+      buttonText: "Postular a ayudantía",
+      description: formatDescription(
+        "Ayudante estadística computacional\n100 horas mensuales, 3 bloques de catedra semanales\nCrear y corregir tareas"
+      ),
+    },
+    {
+      title: "IWI-131 Programación",
+      text: "Introducción a los conceptos y técnicas de programación para desarrollar aplicaciones mediante lenguajes de programación estructurados.",
+      buttonText: "Postular a ayudantía",
+      description: formatDescription(
+        "Ayudante programación\n150 horas mensuales, 5 bloques de catedra semanales\nCrear y corregir tareas"
+      ),
+    },
+  ];
+
+  const filteredAyudantias = ayudantias.filter((ayudantia) =>
+    ayudantia.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <h1 className="text-center mt-4">Ayudantias disponibles</h1>
-      <CustomCard
-        title="INF-239 Bases de datos"
-        text="Estudio de los fundamentos, diseño y gestión de bases de datos para almacenar, organizar y recuperar información de manera eficiente."
-        buttonText="Postular a ayudantía"
-        description={formatDescription(
-          "Ayudante base de datos\n123 horas mensuales, 4 bloques de catedra semanales\nCrear y corregir tareas"
-        )}
-      />
-      <CustomCard
-        title="INF-280 Estadística Computacional"
-        text="Aplicación de métodos estadísticos y algoritmos computacionales para el análisis y procesamiento de grandes conjuntos de datos."
-        buttonText="Postular a ayudantía"
-        description={formatDescription(
-          "Ayudante estadística computacional\n100 horas mensuales, 3 bloques de catedra semanales\nCrear y corregir tareas"
-        )}
-      />
-      <CustomCard
-        title="IWI-131 Programación"
-        text="Introducción a los conceptos y técnicas de programación para desarrollar aplicaciones mediante lenguajes de programación estructurados."
-        buttonText="Postular a ayudantía"
-        description={formatDescription(
-          "Ayudante programación\n150 horas mensuales, 5 bloques de catedra semanales\nCrear y corregir tareas"
-        )}
-      />
+      <div className="d-flex justify-content-center my-4">
+        <FloatingLabel controlId="floatingInput" label="Buscar ayudantía...">
+          <Form.Control
+            type="text"
+            placeholder="Buscar ayudantía..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: "400px" }}
+          />
+        </FloatingLabel>
+      </div>
+      {filteredAyudantias.length > 0 ? (
+        filteredAyudantias.map((ayudantia, index) => (
+          <CustomCard
+            key={index}
+            title={ayudantia.title}
+            text={ayudantia.text}
+            buttonText={ayudantia.buttonText}
+            description={ayudantia.description}
+          />
+        ))
+      ) : (
+        <p className="text-center">No se encontraron ayudantías.</p>
+      )}
     </>
   );
-}
+};
 
-export default WithHeaderExample;
+export default Postulaciones;
