@@ -15,7 +15,10 @@ const Home = () => {
   return (
     <div>
       {/* Hero Section con gradiente */}
-      <div className="relative h-[500px] w-full bg-gradient-to-br from-blue-600 to-indigo-800">
+      <div
+        className="relative h-[550px] w-full bg-cover bg-center"
+        style={{ backgroundImage: "url('src/assets/fondo_sanjoaquin.png')" }}
+      >
         {/* Content Container */}
         <div className="container mx-auto px-4 h-full flex flex-col justify-center">
           <div className="max-w-3xl">

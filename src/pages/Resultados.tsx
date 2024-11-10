@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+import "../index.css";
 interface Application {
   title: string;
   option: string | null;
@@ -106,7 +107,7 @@ const Resultados: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-center mt-4">Resultados de Postulación</h1>
+      <h1 className="text-center mt-4 font-semibold">Resultados de Postulación</h1>
       {applications.length > 0 ? (
         applications.map((app, index) => (
           <CustomCard
@@ -120,7 +121,9 @@ const Resultados: React.FC = () => {
           />
         ))
       ) : (
-        <p>No hay postulaciones guardadas.</p>
+        <p className="text-center font-semibold text-gray-500 mt-4">
+          No hay postulaciones guardadas.
+        </p>
       )}
     </>
   );

@@ -7,6 +7,8 @@ import Alert from "react-bootstrap/Alert";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { Link } from "react-router-dom";
 
+import "../index.css";
+
 interface CardProps {
   title: string;
   text: string;
@@ -73,7 +75,7 @@ const CustomCard: React.FC<CardProps> = ({
         </Alert>
       )}
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title className="font-semibold">{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
         <div className="d-flex justify-content-end">
           {isSubmitted && (
@@ -93,7 +95,7 @@ const CustomCard: React.FC<CardProps> = ({
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>{title} - Formulario de Postulacion</Modal.Title>
+          <Modal.Title className="font-semibold">{title} - Formulario de Postulacion</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>{description}</p>
@@ -194,7 +196,7 @@ const Postulaciones = () => {
 
   return (
     <>
-      <h1 className="text-center mt-4">Ayudantias disponibles</h1>
+      <h1 className="text-center mt-4 font-semibold">Ayudantias disponibles</h1>
       <div className="d-flex justify-content-center my-4">
         <FloatingLabel controlId="floatingInput" label="Buscar ayudantía...">
           <Form.Control
@@ -217,7 +219,7 @@ const Postulaciones = () => {
           />
         ))
       ) : (
-        <p className="text-center">No se encontraron ayudantías.</p>
+        <p className="text-center font-semibold">No se encontraron ayudantías.</p>
       )}
     </>
   );
