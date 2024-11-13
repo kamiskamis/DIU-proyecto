@@ -28,13 +28,12 @@ const NavbarComponent = () => {
             </Nav.Link>
           </Nav>
           {/* Apartado de Perfil */}
-          <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/profile">
-              <span>Hola, Camila</span>{" "}
-              <CircleUserRound color="white" size={35} />{" "}
-              {/* Ícono de usuario */}
+            <Nav className="ms-auto d-flex align-items-center">
+            <Nav.Link as={Link} to="/profile" className="d-flex align-items-center">
+              <span className="me-2">Hola, Camila</span>
+              <CircleUserRound color="white" size={35} />
             </Nav.Link>
-          </Nav>
+            </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
