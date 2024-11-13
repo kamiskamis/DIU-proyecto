@@ -123,9 +123,29 @@ const CustomCard: React.FC<CardProps> = ({
           <Form.Control as="textarea" rows={3} required />
         </Form.Group>
         <Form.Check type="checkbox" id="custom-checkbox" required>
-          <Form.Check.Input type="checkbox" required />
-          <Form.Check.Label>He leído el instructivo de ayudantías</Form.Check.Label>
-        </Form.Check>
+              <Form.Check.Input type="checkbox" required />
+              <Form.Check.Label>
+                He leído el instructivo de ayudantías
+              </Form.Check.Label>
+              <Form.Control.Feedback
+                type="valid"
+                style={{
+                  display: "block",
+                  fontSize: "0.875em",
+                  color: "#6c757d",
+                }}
+              >
+                Asegúrate de leer completamente el instructivo antes de
+                continuar{" "}
+                <a
+                  href="https://usmcl-my.sharepoint.com/:b:/g/personal/alejandro_rojo_usm_cl/EYmqNRjeJwxCn5HuKdmQ950BeipAGTTXmb77akpeb4Ec0Q?e=XPP5B0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  aquí.
+                </a>
+              </Form.Control.Feedback>
+            </Form.Check>
           </Form>
         </Modal.Body>
         <Modal.Footer>
