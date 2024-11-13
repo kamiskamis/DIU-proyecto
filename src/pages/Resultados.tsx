@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-
 import "../index.css";
+
 interface Application {
   title: string;
   option: string | null;
   date: string; // Fecha de postulación
+  priority: number; // Nueva propiedad de prioridad
 }
 
 interface CardProps {
@@ -16,6 +17,9 @@ interface CardProps {
   acceptButtonText: string;
   rejectButtonText: string;
   initialStatus: string;
+  priority: number;
+  onIncreasePriority: () => void;
+  onDecreasePriority: () => void;
 }
 
 const CustomCard: React.FC<CardProps> = ({
@@ -25,6 +29,9 @@ const CustomCard: React.FC<CardProps> = ({
   acceptButtonText,
   rejectButtonText,
   initialStatus,
+  priority,
+  onIncreasePriority,
+  onDecreasePriority,
 }) => {
   const [status, setStatus] = useState(initialStatus);
 
@@ -71,21 +78,32 @@ const CustomCard: React.FC<CardProps> = ({
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
         <Card.Text>Postulacion a {option || "No especificada"}</Card.Text>
+        <Card.Text>Prioridad: {priority}</Card.Text>
         <Card.Text>Estado: {renderStatus()}</Card.Text>
-        {status !== "rejected" &&
-          status !== "pending" &&
-          status !== "ayudantia rechazada" && (
-            <div className="d-flex justify-content-end">
-              <Button variant="outline-danger" className="me-2" onClick={handleReject}>
-                {rejectButtonText}
-              </Button>
-              {status !== "ayudantia aceptada" && (
-                <Button variant="outline-primary" onClick={handleAccept}>
-                  {acceptButtonText}
+        <div className="d-flex justify-content-between">
+          <div>
+            <Button variant="outline-secondary" onClick={onIncreasePriority}>
+              ↑
+            </Button>
+            <Button variant="outline-secondary" onClick={onDecreasePriority} className="ms-2">
+              ↓
+            </Button>
+          </div>
+          {status !== "rejected" &&
+            status !== "pending" &&
+            status !== "ayudantia rechazada" && (
+              <div className="d-flex justify-content-end">
+                <Button variant="outline-danger" className="me-2" onClick={handleReject}>
+                  {rejectButtonText}
                 </Button>
-              )}
-            </div>
-          )}
+                {status !== "ayudantia aceptada" && (
+                  <Button variant="outline-primary" onClick={handleAccept}>
+                    {acceptButtonText}
+                  </Button>
+                )}
+              </div>
+            )}
+        </div>
       </Card.Body>
     </Card>
   );
@@ -105,21 +123,44 @@ const Resultados: React.FC = () => {
     return isNaN(date.getTime()) ? "Fecha no disponible" : date.toLocaleDateString();
   };
 
+  const handleIncreasePriority = (index: number) => {
+    if (index > 0) {
+      const newApplications = [...applications];
+      [newApplications[index], newApplications[index - 1]] = [newApplications[index - 1], newApplications[index]];
+      setApplications(newApplications);
+      localStorage.setItem("applications", JSON.stringify(newApplications));
+    }
+  };
+
+  const handleDecreasePriority = (index: number) => {
+    if (index < applications.length - 1) {
+      const newApplications = [...applications];
+      [newApplications[index], newApplications[index + 1]] = [newApplications[index + 1], newApplications[index]];
+      setApplications(newApplications);
+      localStorage.setItem("applications", JSON.stringify(newApplications));
+    }
+  };
+
   return (
     <>
       <h1 className="text-center mt-4 font-semibold">Resultados de Postulación</h1>
       {applications.length > 0 ? (
-        applications.map((app, index) => (
-          <CustomCard
-            key={index}
-            title={app.title}
-            text={`Fecha de postulación: ${formatDate(app.date) || "Fecha no disponible"}`}
-            option={app.option}
-            acceptButtonText="Aceptar"
-            rejectButtonText="Rechazar"
-            initialStatus={app.option === "bases de datos" ? "ayudantia aceptada" : "pending"} // Estado inicial de cada tarjeta
-          />
-        ))
+        applications
+          .sort((a, b) => b.priority - a.priority)
+          .map((app, index) => (
+            <CustomCard
+              key={`${app.title}-${app.priority}`} // Clave única basada en el título y la prioridad
+              title={app.title}
+              text={`Fecha de postulación: ${formatDate(app.date) || "Fecha no disponible"}`}
+              option={app.option}
+              acceptButtonText="Aceptar"
+              rejectButtonText="Rechazar"
+              initialStatus={app.option === "bases de datos" ? "ayudantia aceptada" : "pending"} // Estado inicial de cada tarjeta
+              priority={index + 1} // Mostrar la prioridad basada en la posición en la lista
+              onIncreasePriority={() => handleIncreasePriority(index)}
+              onDecreasePriority={() => handleDecreasePriority(index)}
+            />
+          ))
       ) : (
         <p className="text-center font-semibold text-gray-500 mt-4">
           No hay postulaciones guardadas.
@@ -130,5 +171,3 @@ const Resultados: React.FC = () => {
 };
 
 export default Resultados;
-
-
