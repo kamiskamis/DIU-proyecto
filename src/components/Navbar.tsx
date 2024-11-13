@@ -24,7 +24,7 @@ const NavbarComponent = () => {
             </Nav.Link>
 
             <Nav.Link as={Link} to="/resultados">
-              Resultados
+              Mis Postulaciones
             </Nav.Link>
           </Nav>
           {/* Apartado de Perfil */}
