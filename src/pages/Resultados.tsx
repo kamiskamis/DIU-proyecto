@@ -3,6 +3,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "../index.css";
 
+
+
+
 interface Application {
   title: string;
   option: string | null;
@@ -151,10 +154,10 @@ const Resultados: React.FC = () => {
             <CustomCard
               key={`${app.title}-${app.priority}`} // Clave única basada en el título y la prioridad
               title={app.title}
-              text={`Fecha de postulación: ${formatDate(app.date) || "Fecha no disponible"}`}
+              text={`Fecha de postulación: ${formatDate(app.date)}`}
               option={app.option}
-              acceptButtonText="Aceptar"
-              rejectButtonText="Rechazar"
+              acceptButtonText="Aceptar Ayudantía"
+              rejectButtonText="Rechazar Ayudantía"
               initialStatus={app.option === "bases de datos" ? "ayudantia aceptada" : "pending"} // Estado inicial de cada tarjeta
               priority={index + 1} // Mostrar la prioridad basada en la posición en la lista
               onIncreasePriority={() => handleIncreasePriority(index)}
