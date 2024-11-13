@@ -44,6 +44,7 @@ const CustomCard: React.FC<CardProps> = ({
     const application = {
       title,
       option: selectedOption,
+      date: new Date().toISOString(), // Add the current date
     };
 
     const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
