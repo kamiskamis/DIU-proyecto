@@ -76,7 +76,7 @@ const CustomCard: React.FC<CardProps> = ({
   };
 
   return (
-    <Card className="container mx-auto px-4 py-4 mt-4">
+    <Card className="container mx-auto px-4 py-4 mt-4 mb-10">
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
