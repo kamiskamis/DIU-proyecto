@@ -45,10 +45,6 @@ const CustomCard: React.FC<CardProps> = ({
     }
   }, [priority]);
 
-  {
-    /* Cambiar el estado de la postulación a "accepted" si la prioridad es 2 */
-  }
-
   useEffect(() => {
     if (priority === 2) {
       const timer = setTimeout(() => {
