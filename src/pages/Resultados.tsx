@@ -3,9 +3,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "../index.css";
 
-
-
-
 interface Application {
   title: string;
   option: string | null;
@@ -39,16 +36,28 @@ const CustomCard: React.FC<CardProps> = ({
   const [status, setStatus] = useState(initialStatus);
 
   useEffect(() => {
-    if (title === "INF-239 Bases de datos") {
-      setStatus("accepted");
+    if (priority === 1) {
+      const timer = setTimeout(() => {
+        setStatus("accepted");
+      }, 10000);
+
+      return () => clearTimeout(timer);
     }
-  }, [option]);
+  }, [priority]);
+
+  {
+    /* Cambiar el estado de la postulación a "accepted" si la prioridad es 2 */
+  }
 
   useEffect(() => {
-    if (title === "IWI-131 Programación") {
-      setStatus("rejected");
+    if (priority === 2) {
+      const timer = setTimeout(() => {
+        setStatus("accepted");
+      }, 20000);
+
+      return () => clearTimeout(timer);
     }
-  }, [option]);
+  }, [priority]);
 
   const handleAccept = () => {
     setStatus("ayudantia aceptada");
@@ -61,15 +70,21 @@ const CustomCard: React.FC<CardProps> = ({
   const renderStatus = () => {
     switch (status) {
       case "rejected":
-        return <Card.Text className="text-danger">POSTULACIÓN RECHAZADA</Card.Text>;
+        return (
+          <Card.Text className="text-danger">POSTULACIÓN RECHAZADA</Card.Text>
+        );
       case "pending":
         return <Card.Text className="text-secondary">PENDIENTE</Card.Text>;
       case "accepted":
         return <Card.Text className="text-success">ACEPTADO</Card.Text>;
       case "ayudantia aceptada":
-        return <Card.Text className="text-success">AYUDANTIA ACEPTADA</Card.Text>;
+        return (
+          <Card.Text className="text-success">AYUDANTIA ACEPTADA</Card.Text>
+        );
       case "ayudantia rechazada":
-        return <Card.Text className="text-danger">AYUDANTIA RECHAZADA</Card.Text>;
+        return (
+          <Card.Text className="text-danger">AYUDANTIA RECHAZADA</Card.Text>
+        );
       default:
         return null;
     }
@@ -88,7 +103,11 @@ const CustomCard: React.FC<CardProps> = ({
             <Button variant="outline-secondary" onClick={onIncreasePriority}>
               ↑
             </Button>
-            <Button variant="outline-secondary" onClick={onDecreasePriority} className="ms-2">
+            <Button
+              variant="outline-secondary"
+              onClick={onDecreasePriority}
+              className="ms-2"
+            >
               ↓
             </Button>
           </div>
@@ -96,7 +115,11 @@ const CustomCard: React.FC<CardProps> = ({
             status !== "pending" &&
             status !== "ayudantia rechazada" && (
               <div className="d-flex justify-content-end">
-                <Button variant="outline-danger" className="me-2" onClick={handleReject}>
+                <Button
+                  variant="outline-danger"
+                  className="me-2"
+                  onClick={handleReject}
+                >
                   {rejectButtonText}
                 </Button>
                 {status !== "ayudantia aceptada" && (
@@ -117,19 +140,26 @@ const Resultados: React.FC = () => {
 
   useEffect(() => {
     // Recuperar las postulaciones del localStorage
-    const storedApplications = JSON.parse(localStorage.getItem("applications") || "[]");
+    const storedApplications = JSON.parse(
+      localStorage.getItem("applications") || "[]"
+    );
     setApplications(storedApplications);
   }, []);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return isNaN(date.getTime()) ? "Fecha no disponible" : date.toLocaleDateString();
+    return isNaN(date.getTime())
+      ? "Fecha no disponible"
+      : date.toLocaleDateString();
   };
 
   const handleIncreasePriority = (index: number) => {
     if (index > 0) {
       const newApplications = [...applications];
-      [newApplications[index], newApplications[index - 1]] = [newApplications[index - 1], newApplications[index]];
+      [newApplications[index], newApplications[index - 1]] = [
+        newApplications[index - 1],
+        newApplications[index],
+      ];
       setApplications(newApplications);
       localStorage.setItem("applications", JSON.stringify(newApplications));
     }
@@ -138,7 +168,10 @@ const Resultados: React.FC = () => {
   const handleDecreasePriority = (index: number) => {
     if (index < applications.length - 1) {
       const newApplications = [...applications];
-      [newApplications[index], newApplications[index + 1]] = [newApplications[index + 1], newApplications[index]];
+      [newApplications[index], newApplications[index + 1]] = [
+        newApplications[index + 1],
+        newApplications[index],
+      ];
       setApplications(newApplications);
       localStorage.setItem("applications", JSON.stringify(newApplications));
     }
@@ -146,7 +179,9 @@ const Resultados: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-center mt-4 font-semibold">Resultados de Postulación</h1>
+      <h1 className="text-center mt-4 font-semibold">
+        Resultados de Postulación
+      </h1>
       {applications.length > 0 ? (
         applications
           .sort((a, b) => b.priority - a.priority)
@@ -158,7 +193,7 @@ const Resultados: React.FC = () => {
               option={app.option}
               acceptButtonText="Aceptar Ayudantía"
               rejectButtonText="Rechazar Ayudantía"
-              initialStatus={app.option === "bases de datos" ? "ayudantia aceptada" : "pending"} // Estado inicial de cada tarjeta
+              initialStatus="pending" // Estado inicial de cada tarjeta
               priority={index + 1} // Mostrar la prioridad basada en la posición en la lista
               onIncreasePriority={() => handleIncreasePriority(index)}
               onDecreasePriority={() => handleDecreasePriority(index)}
