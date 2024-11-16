@@ -26,6 +26,7 @@ const CustomCard: React.FC<CardProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
@@ -44,6 +45,7 @@ const CustomCard: React.FC<CardProps> = ({
     const application = {
       title,
       option: selectedOption,
+      date: new Date().toISOString(), // Add the current date
     };
 
     const previousApplications = JSON.parse(localStorage.getItem("applications") || "[]");
@@ -61,10 +63,11 @@ const CustomCard: React.FC<CardProps> = ({
 
     setShowAlert(false);
     setIsSubmitted(false);
+    setShowConfirmModal(false);
   };
 
   return (
-    <Card className="container mx-auto px-4 py-4 mt-4">
+    <Card className="container mx-auto px-4 py-4 mt-4 mb-10">
       {showAlert && (
         <Alert
           variant="success"
@@ -79,7 +82,7 @@ const CustomCard: React.FC<CardProps> = ({
         <Card.Text>{text}</Card.Text>
         <div className="d-flex justify-content-end">
           {isSubmitted && (
-            <Button variant="outline-danger" onClick={handleCancel} className="me-2">
+            <Button variant="outline-danger" onClick={() => setShowConfirmModal(true)} className="me-2">
               Cancelar Postulación
             </Button>
           )}
@@ -100,29 +103,29 @@ const CustomCard: React.FC<CardProps> = ({
         <Modal.Body>
           <p>{description}</p>
           <Form id="applicationForm">
-        <Form.Group className="mb-3">
-          <Form.Check
-            type="radio"
-            label="Cátedra"
-            checked={selectedOption === "catedra"}
-            onChange={() => handleCheckboxChange("catedra")}
-            required
-            name="option"
-          />
-          <Form.Check
-            type="radio"
-            label="Laboratorio"
-            checked={selectedOption === "laboratorio"}
-            onChange={() => handleCheckboxChange("laboratorio")}
-            required
-            name="option"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Motivaciones</Form.Label>
-          <Form.Control as="textarea" rows={3} required />
-        </Form.Group>
-        <Form.Check type="checkbox" id="custom-checkbox" required>
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="radio"
+                label="Cátedra"
+                checked={selectedOption === "catedra"}
+                onChange={() => handleCheckboxChange("catedra")}
+                required
+                name="option"
+              />
+              <Form.Check
+                type="radio"
+                label="Laboratorio"
+                checked={selectedOption === "laboratorio"}
+                onChange={() => handleCheckboxChange("laboratorio")}
+                required
+                name="option"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Motivaciones</Form.Label>
+              <Form.Control as="textarea" rows={3} required />
+            </Form.Group>
+            <Form.Check type="checkbox" id="custom-checkbox" required>
               <Form.Check.Input type="checkbox" required />
               <Form.Check.Label>
                 He leído el instructivo de ayudantías
@@ -150,20 +153,37 @@ const CustomCard: React.FC<CardProps> = ({
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-        Cerrar
+            Cerrar
           </Button>
           <Button
-        variant="primary"
-        onClick={() => {
-          const form = document.getElementById("applicationForm") as HTMLFormElement;
-          if (form.checkValidity()) {
-            handleSubmit();
-          } else {
-            form.reportValidity();
-          }
-        }}
+            variant="primary"
+            onClick={() => {
+              const form = document.getElementById("applicationForm") as HTMLFormElement;
+              if (form.checkValidity()) {
+                handleSubmit();
+              } else {
+                form.reportValidity();
+              }
+            }}
           >
-        Enviar Postulación
+            Enviar Postulación
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Cancelación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que deseas cancelar tu postulación?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+            No
+          </Button>
+          <Button variant="danger" onClick={handleCancel}>
+            Sí, Cancelar
           </Button>
         </Modal.Footer>
       </Modal>
@@ -193,7 +213,7 @@ const Postulaciones = () => {
       ),
     },
   ];
-
+  
   const filteredAyudantias = ayudantias.filter((ayudantia) =>
     ayudantia.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
