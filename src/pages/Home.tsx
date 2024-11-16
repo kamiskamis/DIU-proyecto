@@ -38,7 +38,7 @@ const Home = () => {
                 className="bg-white border-0 hover:bg-gray-100"
                 style={{ color: "#1e3a8a" }} // Estilo en línea para color del texto
               >
-                Departamento
+                Postula Aqui
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
