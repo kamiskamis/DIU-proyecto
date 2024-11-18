@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import React, { useState } from "react";
+import HeroImage from "../assets/fondo_sanjoaquin.png";
 
 import "../index.css";
 
@@ -17,7 +18,7 @@ const Home = () => {
       {/* Hero Section con gradiente */}
       <div
         className="relative h-[550px] w-full bg-cover bg-center"
-        style={{ backgroundImage: "url('src/assets/fondo_sanjoaquin.png')" }}
+        style={{ backgroundImage: `url(${HeroImage})` }}
       >
         {/* Content Container */}
         <div className="container mx-auto px-4 h-full flex flex-col justify-center">

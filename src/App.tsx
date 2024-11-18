@@ -10,6 +10,7 @@ import Resultados from "./pages/Resultados";
 import Idp from "./pages/Idp";
 import Matematicas from "./pages/Matematicas";
 import Quimica from "./pages/Quimica";
+import Profilepicture from "./assets/IMG_7631.jpg";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
                   email="camila.rosales@usm.cl"
                   rol="202173631-k"
                   carreer="Ing. Civil Informatica"
-                  profilePicture="src/assets/IMG_7631.jpg"
+                  profilePicture={Profilepicture}
                 />
               }
             />

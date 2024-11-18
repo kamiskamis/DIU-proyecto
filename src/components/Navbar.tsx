@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
+import LogoUSM from "../assets/logo2.png";
 const NavbarComponent = () => {
   return (
     <Navbar style={{ backgroundColor: "#2E5E80" }} variant="dark" expand="lg">
@@ -8,7 +9,7 @@ const NavbarComponent = () => {
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img
             alt=""
-            src="src/assets/logo2.png"
+            src= {LogoUSM}
             width="100"
             height="60"
             className="d-inline-block align-top me-2"

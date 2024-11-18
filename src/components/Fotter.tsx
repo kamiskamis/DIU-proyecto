@@ -1,4 +1,6 @@
 import "../index.css"
+import Usmcl from "../assets/usm_cl.svg"
+import Sello from "../assets/sello-acreditacion-2028.svg"
 
 const Footer = () => {
   return (
@@ -40,7 +42,7 @@ const Footer = () => {
 
           {/* Sección de redes sociales */}
           <div className="space-y-4">
-            <img src="src/assets/sello-acreditacion-2028.svg" alt="Imagen" className="w-28 h-auto object-contain" />
+            <img src={Sello} alt="Imagen" className="w-28 h-auto object-contain" />
             <h3 className="text-white text-lg font-bold">Síguenos</h3>
             <div className="flex space-x-4">
               <a href="https://web.facebook.com/usantamaria?_rdc=1&_rdr" className="text-white hover:text-gray-400 transition-colors">
@@ -70,7 +72,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm">Sitio web administrado por la Dirección General de Comunicaciones</p>
             <div className="mt-4 md:mt-0">
-              <img src="src/assets/usm_cl.svg" alt="Logo" className="h-10" />
+              <img src={Usmcl} alt="Logo" className="h-10" />
             </div>
           </div>
         </div>
